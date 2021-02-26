@@ -1,25 +1,49 @@
-import logo from './logo.svg';
+import React from "react";
 import './App.css';
+import GridRow from "./Components/Gridrow/index"
+import Footer from "./Components/Footer/index"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component{ 
+  constructor(props){
+    super(props);
+    this.state={
+      gameState:[
+        ["","",""],
+        ["","",""],
+        ["","",""]
+      ], 
+      playerTurn:"X"
+    }
+  } 
+  handlePlayerClick=(rowIndex,colIndex)=>{
+  const copiedGameState=[...this.state.gameState];
+  copiedGameState[rowIndex][colIndex]=this.state.playerTurn;
+  this.setState({
+  gameState:copiedGameState,
+  playerTurn:this.state.playerTurn==="X"?"O":"X"
+  })
 }
+  render()
+  { 
+    return (
+      
+      <div className="container">
+      <div id="board">
+     {this.state.gameState.map((row,rowIndex)=>(
+       <GridRow 
+       row={row}
+        rowIndex={rowIndex} 
+        handlePlayerClick={this.handlePlayerClick}
+        />
+     ))}
+      </div> 
+      <Footer turn={this.state.playerTurn}/>
+      </div>
+      
+    );
+  }
+}
+
+
 
 export default App;
